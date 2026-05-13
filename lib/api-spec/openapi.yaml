@@ -1,0 +1,509 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: EduPath API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: profile
+    description: Student profile operations
+  - name: scholarships
+    description: Scholarship operations
+  - name: exams
+    description: Exam calendar operations
+  - name: resources
+    description: Free learning resources
+  - name: mentors
+    description: Mentor operations
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /profile:
+    get:
+      operationId: getProfile
+      tags: [profile]
+      summary: Get student profile
+      security:
+        - clerkAuth: []
+      responses:
+        "200":
+          description: Profile found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+        "404":
+          description: Profile not found
+    post:
+      operationId: createProfile
+      tags: [profile]
+      summary: Create or update student profile
+      security:
+        - clerkAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileInput"
+      responses:
+        "200":
+          description: Profile saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+
+  /scholarships:
+    get:
+      operationId: getScholarships
+      tags: [scholarships]
+      summary: Get scholarships matching user profile
+      security:
+        - clerkAuth: []
+      responses:
+        "200":
+          description: List of scholarships
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Scholarship"
+
+  /exams:
+    get:
+      operationId: getExams
+      tags: [exams]
+      summary: Get upcoming exams matching user career interest
+      security:
+        - clerkAuth: []
+      responses:
+        "200":
+          description: List of exams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Exam"
+
+  /resources:
+    get:
+      operationId: getResources
+      tags: [resources]
+      summary: Get free learning resources matching user profile
+      security:
+        - clerkAuth: []
+      responses:
+        "200":
+          description: List of resources
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Resource"
+
+  /mentors:
+    get:
+      operationId: getMentors
+      tags: [mentors]
+      summary: Get mentors matching user profile
+      security:
+        - clerkAuth: []
+      responses:
+        "200":
+          description: List of mentors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Mentor"
+
+  /scholarships/saved:
+    get:
+      operationId: getSavedScholarships
+      tags: [scholarships]
+      summary: Get all scholarships saved by the current user
+      security:
+        - clerkAuth: []
+      responses:
+        "200":
+          description: List of saved scholarships
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Scholarship"
+
+  /scholarships/{id}/save:
+    post:
+      operationId: saveScholarship
+      tags: [scholarships]
+      summary: Save (bookmark) a scholarship
+      security:
+        - clerkAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SaveResult"
+    delete:
+      operationId: unsaveScholarship
+      tags: [scholarships]
+      summary: Remove a saved scholarship bookmark
+      security:
+        - clerkAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SaveResult"
+
+  /scholarships/saved/ids:
+    get:
+      operationId: getSavedScholarshipIds
+      tags: [scholarships]
+      summary: Get IDs of all scholarships saved by the current user
+      security:
+        - clerkAuth: []
+      responses:
+        "200":
+          description: List of saved scholarship IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+
+  /deadlines:
+    get:
+      operationId: getUpcomingDeadlines
+      tags: [exams]
+      summary: Get 3 nearest upcoming exam registration deadlines
+      security:
+        - clerkAuth: []
+      responses:
+        "200":
+          description: List of upcoming deadlines sorted by closeness
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UpcomingDeadline"
+
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [profile]
+      summary: Get dashboard summary counts
+      security:
+        - clerkAuth: []
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
+components:
+  securitySchemes:
+    clerkAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    Profile:
+      type: object
+      properties:
+        id:
+          type: integer
+        clerkUserId:
+          type: string
+        name:
+          type: string
+        stream:
+          type: string
+        college:
+          type: string
+        state:
+          type: string
+        category:
+          type: string
+        financialBackground:
+          type: string
+        careerInterest:
+          type: string
+        yearOfStudy:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - id
+        - clerkUserId
+        - name
+        - stream
+        - college
+        - state
+        - category
+        - financialBackground
+        - careerInterest
+        - yearOfStudy
+        - createdAt
+        - updatedAt
+
+    ProfileInput:
+      type: object
+      properties:
+        name:
+          type: string
+        stream:
+          type: string
+        college:
+          type: string
+        state:
+          type: string
+        category:
+          type: string
+        financialBackground:
+          type: string
+        careerInterest:
+          type: string
+        yearOfStudy:
+          type: string
+      required:
+        - name
+        - stream
+        - college
+        - state
+        - category
+        - financialBackground
+        - careerInterest
+        - yearOfStudy
+
+    Scholarship:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        provider:
+          type: string
+        amount:
+          type: string
+        deadline:
+          type: string
+        applyUrl:
+          type: string
+        eligibility:
+          type: string
+        category:
+          type: string
+        state:
+          type: ["string", "null"]
+        description:
+          type: string
+      required:
+        - id
+        - name
+        - provider
+        - amount
+        - deadline
+        - applyUrl
+        - eligibility
+        - category
+        - description
+
+    Exam:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        conductedBy:
+          type: string
+        examDate:
+          type: string
+        registrationDeadline:
+          type: string
+        officialUrl:
+          type: string
+        stream:
+          type: string
+        description:
+          type: string
+        careerRelevance:
+          type: string
+      required:
+        - id
+        - name
+        - conductedBy
+        - examDate
+        - registrationDeadline
+        - officialUrl
+        - stream
+        - description
+        - careerRelevance
+
+    Resource:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        platform:
+          type: string
+        url:
+          type: string
+        type:
+          type: string
+        stream:
+          type: string
+        language:
+          type: string
+        description:
+          type: string
+      required:
+        - id
+        - title
+        - platform
+        - url
+        - type
+        - stream
+        - language
+        - description
+
+    Mentor:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        title:
+          type: string
+        college:
+          type: string
+        careerDomain:
+          type: string
+        background:
+          type: string
+        contactUrl:
+          type: string
+        availability:
+          type: string
+        bio:
+          type: string
+      required:
+        - id
+        - name
+        - title
+        - college
+        - careerDomain
+        - background
+        - contactUrl
+        - availability
+        - bio
+
+    SaveResult:
+      type: object
+      properties:
+        ok:
+          type: boolean
+      required:
+        - ok
+
+    UpcomingDeadline:
+      type: object
+      properties:
+        examId:
+          type: integer
+        examName:
+          type: string
+        registrationDeadline:
+          type: string
+        daysRemaining:
+          type: integer
+        officialUrl:
+          type: string
+        stream:
+          type: string
+      required:
+        - examId
+        - examName
+        - registrationDeadline
+        - daysRemaining
+        - officialUrl
+        - stream
+
+    DashboardSummary:
+      type: object
+      properties:
+        scholarshipsCount:
+          type: integer
+        examsCount:
+          type: integer
+        resourcesCount:
+          type: integer
+        mentorsCount:
+          type: integer
+        hasProfile:
+          type: boolean
+      required:
+        - scholarshipsCount
+        - examsCount
+        - resourcesCount
+        - mentorsCount
+        - hasProfile
