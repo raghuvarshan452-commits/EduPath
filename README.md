@@ -1,400 +1,181 @@
-````md
 <div align="center">
-
-<img src="./.canvas/assets/logo.png.png" width="190" alt="EduPath Logo"/>
-
-<br/>
 
 # EduPath
 
-### 🚀 A Personalised Education Navigator for First-Generation College Students in India
+**Personalized Education Navigator for First-Generation College Students in India**
 
-<p align="center">
-  <strong>
-    Helping students discover scholarships, career opportunities, mentors, and learning resources through one intelligent personalized roadmap.
-  </strong>
-</p>
+[![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB.svg)](https://react.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-24-339933.svg)](https://nodejs.org/)
 
-<br/>
-
-<p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Poppins&weight=600&size=24&duration=3500&pause=1000&color=2563EB&center=true&vCenter=true&width=900&lines=Empowering+Students+Through+Guidance;Scholarships+%7C+Mentors+%7C+Career+Roadmaps;Built+for+First-Generation+College+Students;Bridging+Educational+Inequality+with+Technology" />
-</p>
-
-<br/>
-
-<p align="center">
-  <i>
-    “Google gives them 10 lakh results. We give them one roadmap.”
-  </i>
-</p>
-
-<br/>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Frontend-React_19-61DAFB?style=for-the-badge&logo=react&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Backend-Express.js-000000?style=for-the-badge&logo=express&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Database-PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Language-TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/>
-  <img src="https://img.shields.io/badge/UI-TailwindCSS-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white"/>
-</p>
-
-<br/>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/SDG%204-Quality%20Education-blue?style=flat-square"/>
-  <img src="https://img.shields.io/badge/SDG%2010-Reduced%20Inequalities-success?style=flat-square"/>
-</p>
+*Bridging the information gap — one student at a time.*
 
 </div>
 
 ---
 
-# 🌍 Problem Statement
+## The Problem
 
-Millions of first-generation college students in India struggle not because of lack of talent, but because of lack of guidance.
+Millions of first-generation college students in India have the talent but not the guidance. They navigate a fragmented landscape of scholarships, entrance exams, mentors, and learning resources — often alone and without a roadmap.
 
-Students often do not know:
-- Which scholarships they qualify for
-- What entrance exams they should prepare for
-- Where to access free learning resources
-- How to connect with mentors
-
-Existing platforms are fragmented, overwhelming, and not personalized.
-
-EduPath solves this by generating a **single personalized roadmap** tailored to every student.
+**EduPath changes that.** A single personalized platform that meets every student where they are and shows them exactly where to go next.
 
 ---
 
-# 🎯 Product Vision
+## Features
 
-EduPath aims to become a digital educational guidance ecosystem designed specifically for students who lack access to proper mentorship, career counseling, and educational awareness.
+### Personalized Dashboard
+A unified view of what matters most: upcoming exam deadlines, relevant scholarships, suggested mentors, and curated learning resources — all filtered to the student's profile.
 
-The platform centralizes:
-- Scholarships
-- Entrance Exams
-- Mentorship Opportunities
-- Curated Learning Resources
+### Scholarship Finder
+Filter and discover scholarships by category, financial background, educational stream, state, and career interests. No more drowning in irrelevant results.
 
-into one accessible and easy-to-understand platform.
+### Exam Calendar
+Stay on top of entrance exam schedules and application deadlines with career-relevance context — JEE, NEET, CLAT, and more.
 
-Our mission is to bridge the educational opportunity gap using technology.
+### Mentor Connect
+Connect with alumni, seniors, industry professionals, and first-generation achievers who've walked the same path.
 
----
-
-# ✨ Features
-
-## 🎓 Personalized Student Dashboard
-- Scholarship recommendations
-- Exam timelines
-- Mentor suggestions
-- Curated learning resources
-- Progress tracking
+### Free Learning Resources
+Curated links to NPTEL, SWAYAM, Khan Academy, and government portals — quality education, zero cost.
 
 ---
 
-## 📚 Scholarship Finder
-Smart filtering based on:
-- Category (BC/OBC/SC/ST/General)
-- Financial background
-- Educational stream
-- State
-- Career interests
+## Tech Stack
 
-Students receive only the scholarships relevant to them.
-
----
-
-## 🗓 Exam Calendar
-Personalized entrance exam recommendations with:
-- Registration dates
-- Deadlines
-- Exam schedules
-- Career relevance
+| Layer | Technology |
+|---|---|
+| **Frontend** | React 19 · Vite · Tailwind CSS v4 |
+| **Backend** | Express.js 5 |
+| **Database** | PostgreSQL · Drizzle ORM |
+| **Authentication** | Clerk |
+| **Validation** | Zod · drizzle-zod |
+| **API Architecture** | OpenAPI spec → Orval codegen → typed React Query hooks |
+| **Language** | TypeScript 5.9 |
+| **Package Manager** | pnpm workspaces |
 
 ---
 
-## 🤝 Mentor Connect
-Connect with:
-- Alumni
-- Senior students
-- Industry mentors
-- First-generation achievers
+## Architecture
+
+```
+Frontend (React + Vite)        →  Clerk auth, React Query, wouter routing
+         ↓
+Express API Server             →  /api/* routes, requireAuth middleware
+         ↓
+PostgreSQL + Drizzle ORM       →  profiles, scholarships, exams, resources, mentors
+         ↓
+Recommendation Engine          →  server-side filtering based on student profile
+```
+
+The API contract is **spec-first**: `lib/api-spec/openapi.yaml` is the single source of truth, and typed client hooks are generated via Orval.
 
 ---
 
-## 🌐 Free Learning Resources
-Curated educational resources from:
-- NPTEL
-- SWAYAM
-- Khan Academy
-- Government educational portals
+## Project Structure
 
----
-
-# 🖼 Platform Screenshots
-
-## 🏠 Landing Page
-
-> Save screenshot as:
-```txt
-landing-page.png
-````
-
-```md
-![Landing Page](./.canvas/assets/screenshots/landing-page.png)
+```
+├── artifacts/
+│   ├── edupath/               # React frontend
+│   │   └── src/
+│   │       ├── pages/         # landing, dashboard, profile, scholarships,
+│   │       │                  # exams, resources, mentors, not-found
+│   │       ├── components/
+│   │       │   └── layout.tsx # Sidebar + nav for authenticated pages
+│   │       ├── App.tsx        # Clerk + Wouter routing
+│   │       └── index.css      # Theme — saffron/amber primary, cream bg
+│   └── api-server/            # Express API server
+│       └── src/routes/        # profile, scholarships, exams, resources,
+│                              # mentors, dashboard, health
+├── lib/
+│   ├── db/src/schema/         # Drizzle schema definitions
+│   ├── api-spec/              # OpenAPI spec (source of truth)
+│   └── api-client-react/      # Generated React Query hooks (via Orval)
+└── scripts/
 ```
 
 ---
 
-## 📊 Student Dashboard
+## Getting Started
 
-> Save screenshot as:
+### Prerequisites
 
-```txt
-dashboard.png
-```
+- Node.js 24+
+- pnpm
+- PostgreSQL database
 
-```md
-![Dashboard](./.canvas/assets/screenshots/dashboard.png)
-```
-
----
-
-## 🎓 Scholarship Recommendations
-
-> Save screenshot as:
-
-```txt
-scholarships.png
-```
-
-```md
-![Scholarships](./.canvas/assets/screenshots/scholarships.png)
-```
-
----
-
-## 🤝 Mentor Connect
-
-> Save screenshot as:
-
-```txt
-mentors.png
-```
-
-```md
-![Mentors](./.canvas/assets/screenshots/mentors.png)
-```
-
----
-
-## 📚 Learning Resources
-
-> Save screenshot as:
-
-```txt
-resources.png
-```
-
-```md
-![Resources](./.canvas/assets/screenshots/resources.png)
-```
-
----
-
-# 🛠 Tech Stack
-
-| Layer            | Technology                     |
-| ---------------- | ------------------------------ |
-| Frontend         | React 19 + Vite + Tailwind CSS |
-| Backend          | Express.js                     |
-| Database         | PostgreSQL                     |
-| ORM              | Drizzle ORM                    |
-| Authentication   | Clerk                          |
-| Validation       | Zod                            |
-| API Architecture | OpenAPI + Orval                |
-| Language         | TypeScript                     |
-| Package Manager  | pnpm                           |
-
----
-
-# 🏗 Architecture Overview
-
-```txt
-Frontend (React + Vite)
-        ↓
-Express API Server
-        ↓
-PostgreSQL Database
-        ↓
-Personalized Recommendation Engine
-```
-
-EduPath follows a scalable modular architecture ensuring maintainability, performance, and future extensibility.
-
----
-
-# 🧠 Personalization Engine
-
-The recommendation system dynamically filters:
-
-* Scholarships
-* Exams
-* Resources
-* Mentors
-
-based on:
-
-* Educational stream
-* State
-* Student category
-* Financial background
-* Career goals
-* Academic year
-
-This creates a highly personalized educational roadmap for every student.
-
----
-
-# 🔐 Security & Authentication
-
-Authentication is securely handled using Clerk authentication services.
-
-Features include:
-
-* Secure session management
-* Protected routes
-* Authenticated APIs
-* User profile authorization
-
----
-
-# 📱 Accessibility & UX
-
-EduPath focuses heavily on accessibility and usability.
-
-UI goals:
-
-* Beginner-friendly navigation
-* Clean layouts
-* Mobile responsiveness
-* High readability
-* Student-focused design
-* Minimal learning curve
-
----
-
-# 🚀 Future Roadmap
-
-* AI-powered mentor chatbot
-* Regional language support
-* Resume builder
-* Mobile application
-* AI career recommendation engine
-* Internship recommendations
-* Scholarship prediction system
-
----
-
-# ⚡ Local Setup
-
-## Clone Repository
+### Installation
 
 ```bash
+# Clone the repository
 git clone https://github.com/your-username/edupath.git
 cd edupath
-```
 
----
-
-## Install Dependencies
-
-```bash
+# Install dependencies
 pnpm install
 ```
 
----
-
-## Run Frontend
+### Environment Setup
 
 ```bash
+# Create a .env file and set:
+DATABASE_URL=your_postgres_connection_string
+```
+
+### Running Locally
+
+```bash
+# Start the API server (port 8080, proxied at /api)
+pnpm --filter @workspace/api-server run dev
+
+# Start the frontend (port 26172, proxied at /)
 pnpm --filter @workspace/edupath run dev
 ```
 
----
-
-## Run Backend
+### Other Commands
 
 ```bash
-pnpm --filter @workspace/api-server run dev
+# Full typecheck across all packages
+pnpm run typecheck
+
+# Build all packages
+pnpm run build
+
+# Regenerate API hooks from OpenAPI spec
+pnpm --filter @workspace/api-spec run codegen
+
+# Push DB schema changes (dev only)
+pnpm --filter @workspace/db run push
 ```
 
 ---
 
-# 🔑 Environment Variables
+## Key Design Decisions
 
-```env
-DATABASE_URL=
-
-CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
-
-VITE_CLERK_PUBLISHABLE_KEY=
-```
+- **Contract-first API** — OpenAPI spec drives Orval codegen, keeping frontend and backend in sync automatically.
+- **Clerk auth** — `@clerk/react` on the frontend, `@clerk/express` on the API with `requireAuth` middleware protecting all routes.
+- **Server-side personalisation** — scholarships, exams, resources, and mentors are filtered based on the authenticated user's profile on every request.
+- **Upsert profile pattern** — a single `POST /profile` endpoint handles both creation and updates.
 
 ---
 
-# 📂 Project Structure
+## SDG Alignment
 
-```txt
-edupath/
-├── artifacts/
-│   ├── edupath/        # Frontend
-│   └── api-server/     # Backend
-├── lib/
-│   ├── db/
-│   ├── api-spec/
-│   ├── api-client-react/
-│   └── api-zod/
-├── scripts/
-└── package.json
-```
+| Goal | How EduPath Helps |
+|---|---|
+| **SDG 4 — Quality Education** | Equal access to educational guidance and high-quality free resources |
+| **SDG 10 — Reduced Inequalities** | Bridges the information gap for first-generation and underprivileged students |
 
 ---
 
-# 🌱 SDG Alignment
+## Roadmap
 
-## 🎓 SDG 4 — Quality Education
-
-Providing equal access to educational opportunities and guidance.
-
-## ⚖️ SDG 10 — Reduced Inequalities
-
-Bridging the information gap for underprivileged and first-generation students.
-
----
-
-# 🏆 Repository Highlights
-
-✅ Full-stack architecture
-✅ Type-safe APIs
-✅ Modern responsive UI
-✅ Personalized recommendation engine
-✅ Scalable modular structure
-✅ Production-ready development workflow
+- [ ] AI-powered mentor assistant chatbot
+- [ ] Regional language support (Hindi, Tamil, Telugu, and more)
+- [ ] Resume builder
+- [ ] AI career recommendation engine
+- [ ] Scholarship prediction system
+- [ ] Mobile application (React Native / Expo)
 
 ---
-
-# 👨‍💻 Team
-
-Built with passion to empower students and bridge educational inequality through technology.
-
----
-
-# 📜 License
-
-MIT License
-
-```
-```
